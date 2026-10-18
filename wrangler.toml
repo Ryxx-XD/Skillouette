@@ -1,0 +1,11 @@
+name = "skillouette"
+compatibility_date = "2024-10-01"
+pages_build_output_dir = "client/dist"
+
+# Production environment configuration
+[env.production]
+vars = { NODE_ENV = "production" }
+
+# Preview environment configuration
+[env.preview]
+vars = { NODE_ENV = "preview" }

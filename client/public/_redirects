@@ -1,0 +1,4 @@
+# Cloudflare Pages SPA Routing Rules
+# Redirect API calls to the server backend when deployed together, or fallback to index.html for React Router
+/api/*  /api/:splat  200
+/*      /index.html   200

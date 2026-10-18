@@ -1,0 +1,520 @@
+/* AI CV/Resume Builder - Core Design System & Theme */
+
+:root {
+  /* Color Palette - Cybernetic Engineering Slate & Cyan/Sky */
+  --bg-app: #090d16;
+  --bg-surface: #0f172a;
+  --bg-surface-elevated: #1e293b;
+  --bg-glass: rgba(15, 23, 42, 0.75);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-focus: rgba(56, 189, 248, 0.5);
+  --border-card: rgba(148, 163, 184, 0.12);
+
+  /* Accents */
+  --accent-primary: #0284c7;
+  --accent-primary-hover: #0369a1;
+  --accent-cyan: #38bdf8;
+  --accent-teal: #14b8a6;
+  --accent-emerald: #10b981;
+  --accent-amber: #f59e0b;
+  --accent-rose: #f43f5e;
+  --accent-violet: #8b5cf6;
+
+  /* Text colors */
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-subtle: #64748b;
+  --text-highlight: #38bdf8;
+
+  /* Resume Paper Tokens (Clean White Paper for live preview & print) */
+  --paper-bg: #ffffff;
+  --paper-text: #0f172a;
+  --paper-text-muted: #334155;
+  --paper-accent: #0284c7;
+  --paper-border: #cbd5e1;
+  --paper-rule: #0284c7;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 20px rgba(56, 189, 248, 0.15);
+  --shadow-paper: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+
+  /* Fonts */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* Reset & Base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(2, 132, 199, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(20, 184, 166, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.05) 0%, transparent 60%);
+  background-attachment: fixed;
+}
+
+/* Typography Utility */
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+}
+
+code, pre, .font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Glassmorphic Container */
+.glass-panel {
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+}
+
+.glass-panel-elevated {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.6);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.25);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(56, 189, 248, 0.4);
+}
+
+/* Buttons */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(2, 132, 199, 0.25);
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(30, 41, 59, 0.8);
+  color: var(--text-main);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-secondary:hover {
+  background: rgba(51, 65, 85, 0.9);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.btn-accent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+}
+.btn-accent:hover {
+  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(244, 63, 94, 0.15);
+  color: #fb7185;
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-danger:hover {
+  background: rgba(244, 63, 94, 0.3);
+  border-color: #f43f5e;
+}
+
+/* Tags & Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+.badge-cyan {
+  background: rgba(56, 189, 248, 0.12);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+}
+.badge-green {
+  background: rgba(16, 185, 129, 0.12);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+.badge-amber {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+.badge-purple {
+  background: rgba(139, 92, 246, 0.15);
+  color: #a78bfa;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+/* Modals */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 7, 18, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 20px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-content {
+  background: #0f172a;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 760px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Form Inputs */
+.input-dark {
+  width: 100%;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: #f8fafc;
+  font-size: 0.875rem;
+  font-family: var(--font-sans);
+  transition: all 0.2s ease;
+}
+.input-dark:focus {
+  outline: none;
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+}
+
+/* ------------------------------------------------------------- */
+/* RESUME PAPER CANVAS (Live Preview & Print Layout Replicating Reference CV) */
+/* ------------------------------------------------------------- */
+.resume-paper {
+  background-color: var(--paper-bg);
+  color: var(--paper-text);
+  width: 100%;
+  max-width: 820px;
+  min-height: 1050px;
+  margin: 0 auto;
+  padding: 44px 52px;
+  box-shadow: var(--shadow-paper);
+  border-radius: 4px;
+  font-family: 'Inter', Calibri, Arial, sans-serif;
+  font-size: 10pt;
+  line-height: 1.45;
+  transition: all 0.2s ease;
+}
+
+/* Header */
+.resume-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+.resume-name {
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-size: 20pt;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  margin-bottom: 2px;
+}
+.resume-title {
+  font-size: 11pt;
+  font-weight: 700;
+  color: #0284c7;
+  margin-bottom: 6px;
+  letter-spacing: 0.01em;
+}
+.resume-contacts {
+  font-size: 9pt;
+  color: #475569;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.resume-contacts a {
+  color: #0284c7;
+  text-decoration: none;
+}
+.resume-contacts a:hover {
+  text-decoration: underline;
+}
+.resume-contacts-dot {
+  color: #94a3b8;
+}
+
+/* Section Styling */
+.resume-section {
+  margin-top: 15px;
+  margin-bottom: 12px;
+  page-break-inside: avoid;
+}
+.resume-section-title {
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-size: 11pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #0f172a;
+  letter-spacing: 0.05em;
+  border-bottom: 1.8px solid #0284c7;
+  padding-bottom: 2px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Summary */
+.resume-summary-text {
+  font-size: 9.5pt;
+  color: #334155;
+  text-align: justify;
+  line-height: 1.45;
+}
+
+/* Dynamic Technical Skills Grid */
+.resume-skills-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.resume-skill-row {
+  display: flex;
+  align-items: baseline;
+  font-size: 9.5pt;
+  line-height: 1.35;
+}
+.resume-skill-label {
+  font-weight: 700;
+  color: #1e293b;
+  min-width: 175px;
+  flex-shrink: 0;
+}
+.resume-skill-value {
+  color: #334155;
+}
+
+/* Project & Experience Entry */
+.resume-entry {
+  margin-bottom: 9px;
+  page-break-inside: avoid;
+}
+.resume-entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 2px;
+}
+.resume-entry-title-group {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.resume-entry-title {
+  font-weight: 700;
+  font-size: 10pt;
+  color: #0f172a;
+}
+.resume-entry-role {
+  font-style: italic;
+  font-size: 9pt;
+  color: #475569;
+}
+.resume-entry-org {
+  font-size: 9pt;
+  color: #64748b;
+}
+.resume-entry-date {
+  font-size: 8.5pt;
+  font-weight: 600;
+  color: #64748b;
+  white-space: nowrap;
+}
+.resume-entry-desc {
+  font-size: 9.2pt;
+  color: #334155;
+  line-height: 1.4;
+  margin-top: 1px;
+}
+.resume-entry-impact {
+  font-size: 8.8pt;
+  color: #0369a1;
+  font-weight: 500;
+  margin-top: 2px;
+  padding-left: 8px;
+  border-left: 2px solid #38bdf8;
+}
+.resume-entry-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 8pt;
+  color: #0284c7;
+  text-decoration: none;
+  margin-left: 6px;
+}
+.resume-entry-link:hover {
+  text-decoration: underline;
+}
+
+/* References Grid */
+.resume-references-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 4px;
+}
+.resume-reference-card {
+  font-size: 8.8pt;
+  color: #334155;
+}
+.resume-ref-name {
+  font-weight: 700;
+  color: #0f172a;
+}
+.resume-ref-org {
+  font-style: italic;
+  color: #475569;
+}
+
+/* ------------------------------------------------------------- */
+/* PRINT MEDIA STYLES (Zero clipping, exact margins, high resolution) */
+/* ------------------------------------------------------------- */
+@media print {
+  body {
+    background: transparent !important;
+    background-image: none !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  /* Hide all UI elements except resume paper */
+  .no-print, nav, .navbar, .toolbar, .tabs, .glass-panel, .btn-primary, .btn-secondary, button {
+    display: none !important;
+  }
+
+  .resume-paper {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    min-height: auto !important;
+    margin: 0 !important;
+    padding: 10mm 15mm !important;
+    background: #ffffff !important;
+  }
+
+  .resume-section {
+    page-break-inside: avoid;
+  }
+
+  .resume-entry {
+    page-break-inside: avoid;
+  }
+
+  @page {
+    size: letter portrait;
+    margin: 8mm 10mm;
+  }
+}
