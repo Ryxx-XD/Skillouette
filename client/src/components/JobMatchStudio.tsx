@@ -198,21 +198,19 @@ Key Requirements:
   return (
     <div className="w-full max-w-7xl mx-auto py-6 px-4 flex flex-col gap-6">
       {/* Top Banner */}
-      <div className="glass-panel p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-l-4 border-l-teal-500">
+      <div className="nb-card p-5 bg-white border-2 border-[#171717] shadow-[4px_4px_0px_#171717] flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-l-6 border-l-[#B8A5FF]">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-teal-500 to-emerald-400 p-0.5 shadow-lg shadow-teal-500/20 flex items-center justify-center">
-            <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-              <Target className="w-5 h-5 text-teal-400" />
-            </div>
+          <div className="w-10 h-10 rounded-md bg-[#B8A5FF] border-2 border-[#171717] shadow-[2px_2px_0px_#171717] flex items-center justify-center">
+            <Target className="w-5 h-5 text-[#171717]" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <h2 className="font-display font-bold text-lg text-white">Skillouette Job-Match & Resume Tailoring Studio</h2>
-              <span className="badge badge-emerald text-[10px] font-mono flex items-center gap-1">
-                <ShieldCheck className="w-3 h-3" /> Anti-Hallucination Guardrail Active
+            <div className="flex items-center gap-2 flex-wrap">
+              <h2 className="font-display font-bold text-lg text-[#171717]">Job-Match & Tailoring Studio</h2>
+              <span className="badge badge-green text-[10px] font-mono flex items-center gap-1">
+                <ShieldCheck className="w-3.5 h-3.5" /> Anti-Hallucination Guardrail Active
               </span>
             </div>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-[#525252] font-medium">
               Extract requirements, compare profile evidence, and tailor resumes strictly grounded in your actual qualifications.
             </p>
           </div>
@@ -221,23 +219,23 @@ Key Requirements:
         {/* Saved Snapshots list */}
         {snapshots.length > 0 && (
           <div className="flex items-center gap-2 overflow-x-auto max-w-md pb-1">
-            <span className="text-[11px] text-slate-400 font-mono whitespace-nowrap">Snapshots:</span>
+            <span className="text-[11px] text-[#525252] font-mono font-bold whitespace-nowrap">Snapshots:</span>
             {snapshots.map(snap => (
               <div
                 key={snap.id}
                 onClick={() => handleLoadSnapshot(snap)}
-                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium cursor-pointer transition whitespace-nowrap border ${
+                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-xs font-bold cursor-pointer transition whitespace-nowrap border-2 border-[#171717] ${
                   activeSnapshotId === snap.id
-                    ? 'bg-teal-500 text-white border-teal-400 shadow-md shadow-teal-500/20'
-                    : 'bg-slate-900/90 text-slate-300 hover:text-white border-slate-800'
+                    ? 'bg-[#C6F564] text-[#171717] shadow-[2px_2px_0px_#171717]'
+                    : 'bg-white text-[#171717] hover:bg-[#F7F5EC] shadow-[1px_1px_0px_#171717]'
                 }`}
               >
-                <Bookmark className="w-3 h-3" />
+                <Bookmark className="w-3 h-3 text-[#171717]" />
                 <span>{snap.name}</span>
                 <button
                   type="button"
                   onClick={(e) => handleDeleteSnapshot(snap.id, e)}
-                  className="hover:text-rose-300 ml-1"
+                  className="hover:text-[#BE123C] ml-1 font-bold"
                   title="Delete snapshot"
                 >
                   ×
@@ -252,31 +250,31 @@ Key Requirements:
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Form: Job Posting Input (5 Cols) */}
         <div className="lg:col-span-5 flex flex-col gap-4">
-          <div className="glass-panel p-5 flex flex-col gap-3.5">
-            <div className="flex items-center justify-between">
-              <h3 className="font-display font-semibold text-sm text-white flex items-center gap-2">
-                <Target className="w-4 h-4 text-sky-400" />
+          <div className="nb-card p-5 bg-white border-2 border-[#171717] shadow-[4px_4px_0px_#171717] flex flex-col gap-3.5">
+            <div className="flex items-center justify-between pb-2 border-b-2 border-[#171717]">
+              <h3 className="font-display font-bold text-sm text-[#171717] flex items-center gap-2">
+                <Target className="w-4 h-4 text-[#171717]" />
                 <span>Target Job Specification</span>
               </h3>
               <button
                 onClick={handleAnalyzeJob}
                 disabled={isAnalyzing}
-                className="text-xs text-sky-400 hover:text-sky-300 flex items-center gap-1"
+                className="btn-secondary text-[11px] py-1 px-2.5 shadow-[2px_2px_0px_#171717]"
               >
-                <FileSearch className="w-3.5 h-3.5" />
-                {isAnalyzing ? 'Extracting...' : 'Extract Requirements'}
+                <FileSearch className="w-3.5 h-3.5 text-[#171717]" />
+                {isAnalyzing ? 'Extracting...' : 'Extract Req'}
               </button>
             </div>
 
             {error && (
-              <div className="p-2.5 rounded bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs">
+              <div className="p-2.5 rounded-md bg-[#FFF1F2] border-2 border-[#FF8066] text-[#BE123C] text-xs font-medium">
                 {error}
               </div>
             )}
 
             <div className="grid grid-cols-2 gap-2.5">
               <div>
-                <label className="text-[11px] font-semibold text-slate-300 uppercase tracking-wider block mb-1">
+                <label className="text-[11px] font-bold text-[#525252] uppercase tracking-wider block mb-1">
                   Position Title
                 </label>
                 <input
@@ -288,7 +286,7 @@ Key Requirements:
                 />
               </div>
               <div>
-                <label className="text-[11px] font-semibold text-slate-300 uppercase tracking-wider block mb-1">
+                <label className="text-[11px] font-bold text-[#525252] uppercase tracking-wider block mb-1">
                   Company (Optional)
                 </label>
                 <input
@@ -302,7 +300,7 @@ Key Requirements:
             </div>
 
             <div>
-              <label className="text-[11px] font-semibold text-slate-300 uppercase tracking-wider block mb-1">
+              <label className="text-[11px] font-bold text-[#525252] uppercase tracking-wider block mb-1">
                 Full Job Posting / Description:
               </label>
               <textarea
@@ -316,10 +314,10 @@ Key Requirements:
 
             {/* Core Feature B: Extracted Requirements Review Card */}
             {analysisResult && (
-              <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col gap-2 text-xs">
-                <div className="flex items-center justify-between">
-                  <span className="font-display font-semibold text-white text-[11px] uppercase tracking-wider flex items-center gap-1">
-                    <FileSearch className="w-3.5 h-3.5 text-sky-400" /> Extracted Requirements
+              <div className="p-3.5 rounded-md bg-[#F7F5EC] border-2 border-[#171717] shadow-[3px_3px_0px_#171717] flex flex-col gap-2.5 text-xs">
+                <div className="flex items-center justify-between pb-1 border-b border-[#171717]">
+                  <span className="font-display font-bold text-[#171717] text-[11px] uppercase tracking-wider flex items-center gap-1.5">
+                    <FileSearch className="w-3.5 h-3.5 text-[#171717]" /> Extracted Requirements
                   </span>
                   <span className="badge badge-cyan text-[9px] font-mono">
                     {analysisResult.required_competencies.length} Req / {analysisResult.preferred_competencies.length} Pref
@@ -328,8 +326,8 @@ Key Requirements:
 
                 {analysisResult.required_competencies.length > 0 && (
                   <div>
-                    <span className="text-[10px] text-rose-400 font-mono block">Mandatory Competencies:</span>
-                    <ul className="list-disc pl-4 text-[11px] text-slate-300 space-y-0.5">
+                    <span className="text-[10px] text-[#BE123C] font-mono font-bold block mb-0.5">Mandatory Competencies:</span>
+                    <ul className="list-disc pl-4 text-[11px] text-[#171717] space-y-1">
                       {analysisResult.required_competencies.slice(0, 4).map((c, i) => (
                         <li key={i}>{c}</li>
                       ))}
@@ -339,8 +337,8 @@ Key Requirements:
 
                 {analysisResult.preferred_competencies.length > 0 && (
                   <div>
-                    <span className="text-[10px] text-sky-400 font-mono block">Preferred Competencies:</span>
-                    <ul className="list-disc pl-4 text-[11px] text-slate-400 space-y-0.5">
+                    <span className="text-[10px] text-[#0284C7] font-mono font-bold block mb-0.5">Preferred Competencies:</span>
+                    <ul className="list-disc pl-4 text-[11px] text-[#525252] space-y-1">
                       {analysisResult.preferred_competencies.slice(0, 3).map((c, i) => (
                         <li key={i}>{c}</li>
                       ))}
@@ -353,7 +351,7 @@ Key Requirements:
             <button
               onClick={handleRunMatch}
               disabled={isMatching}
-              className="w-full btn-primary text-xs py-2.5 flex items-center justify-center gap-2 shadow-teal-500/20"
+              className="w-full btn-primary text-xs py-2.5 flex items-center justify-center gap-2"
             >
               {isMatching ? (
                 <>
@@ -362,7 +360,7 @@ Key Requirements:
                 </>
               ) : (
                 <>
-                  <Sparkles className="w-4 h-4 text-emerald-300" />
+                  <Sparkles className="w-4 h-4 text-[#171717]" />
                   <span>Match Qualifications & Tailor Resume</span>
                 </>
               )}
@@ -371,25 +369,25 @@ Key Requirements:
 
           {/* Match Results & Scoring Insights */}
           {matchResult && (
-            <div className="glass-panel p-5 flex flex-col gap-4">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div className="nb-card p-5 bg-white border-2 border-[#171717] shadow-[4px_4px_0px_#171717] flex flex-col gap-4">
+              <div className="flex items-center justify-between pb-3 border-b-2 border-[#171717]">
                 <div>
-                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+                  <div className="text-[10px] font-mono font-bold text-[#525252] uppercase tracking-wider">
                     Alignment Score
                   </div>
                   <div className="flex items-baseline gap-2">
-                    <span className="font-display font-bold text-2xl text-teal-400">
+                    <span className="font-display font-bold text-3xl text-[#171717]">
                       {averageMatchPercent}%
                     </span>
-                    <span className="text-xs text-slate-400">Top-5 Entry Relevance</span>
+                    <span className="text-xs text-[#525252] font-medium">Top-5 Entry Relevance</span>
                   </div>
                 </div>
 
                 <div className="text-right">
-                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+                  <div className="text-[10px] font-mono font-bold text-[#525252] uppercase tracking-wider">
                     Engine
                   </div>
-                  <span className="badge badge-cyan text-[10px] font-mono">
+                  <span className="badge badge-lavender text-[10px] font-mono">
                     {matchResult.model_used.includes('gemini') ? 'Gemini 1.5' : 'Grounded Heuristic'}
                   </span>
                 </div>
@@ -397,7 +395,7 @@ Key Requirements:
 
               {/* Matched Skills Chips */}
               <div>
-                <div className="text-[11px] font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">
+                <div className="text-[11px] font-bold text-[#171717] mb-1.5 uppercase tracking-wider">
                   Target Skills Identified:
                 </div>
                 <div className="flex flex-wrap gap-1.5">
@@ -411,15 +409,15 @@ Key Requirements:
 
               {/* Competency Gaps */}
               {matchResult.gaps.length > 0 && (
-                <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/25 flex flex-col gap-1.5">
-                  <div className="flex items-center gap-1.5 text-xs font-semibold text-amber-300">
-                    <AlertCircle className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                <div className="p-3.5 rounded-md bg-[#FFF1F2] border-2 border-[#FF8066] shadow-[2px_2px_0px_#171717] flex flex-col gap-1.5">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-[#BE123C]">
+                    <AlertCircle className="w-4 h-4 text-[#BE123C] shrink-0" />
                     <span>Identified Competency Gaps (Not Invented):</span>
                   </div>
-                  <ul className="flex flex-col gap-1 text-[11px] text-amber-200/90 pl-2">
+                  <ul className="flex flex-col gap-1 text-[11px] text-[#171717] pl-2 font-medium">
                     {matchResult.gaps.map((gap, gIdx) => (
                       <li key={gIdx} className="flex items-start gap-1.5">
-                        <span className="text-amber-400">•</span>
+                        <span className="text-[#FF8066] font-bold">•</span>
                         <span>{gap}</span>
                       </li>
                     ))}
@@ -430,13 +428,13 @@ Key Requirements:
               {/* Tailored Professional Summary with Truthfulness Guardrail */}
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <label className="text-[11px] font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                  <label className="text-[11px] font-bold text-[#171717] uppercase tracking-wider flex items-center gap-1.5">
                     Role-Tailored Professional Summary:
                   </label>
                   <button
                     onClick={handleRegenerateTruthfulSummary}
                     disabled={isTailoring}
-                    className="text-[10px] text-sky-400 hover:text-sky-300 flex items-center gap-1"
+                    className="btn-secondary text-[10px] py-0.5 px-2 shadow-[1px_1px_0px_#171717]"
                   >
                     <RefreshCw className={`w-3 h-3 ${isTailoring ? 'animate-spin' : ''}`} />
                     Strict Re-tailor
@@ -451,13 +449,13 @@ Key Requirements:
 
                 {/* Truthfulness Audit Indicator */}
                 {truthAudit && (
-                  <div className="mt-2 p-2.5 rounded-lg bg-emerald-950/30 border border-emerald-500/30 flex items-start gap-2 text-[11px]">
-                    <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <div className="mt-2 p-2.5 rounded-md bg-[#F0FDF4] border-2 border-[#10B981] shadow-[2px_2px_0px_#171717] flex items-start gap-2 text-[11px]">
+                    <ShieldCheck className="w-4 h-4 text-[#047857] shrink-0 mt-0.5" />
                     <div className="flex-1">
-                      <span className="text-emerald-300 font-semibold block">Truthfulness Verification:</span>
-                      <p className="text-slate-300 text-[10px]">{truthAudit.audit_note}</p>
+                      <span className="text-[#047857] font-bold block">Truthfulness Verification:</span>
+                      <p className="text-[#171717] text-[10px]">{truthAudit.audit_note}</p>
                       {truthAudit.verified_user_claims.length > 0 && (
-                        <span className="text-[9px] text-slate-400 block mt-0.5">
+                        <span className="text-[9px] text-[#525252] font-mono block mt-0.5">
                           Verified claims: {truthAudit.verified_user_claims.slice(0, 4).join(', ')}
                         </span>
                       )}
@@ -467,8 +465,8 @@ Key Requirements:
               </div>
 
               {/* Save Snapshot Controls */}
-              <div className="flex flex-col gap-2 pt-2 border-t border-slate-800">
-                <label className="text-[11px] font-medium text-slate-300">Snapshot Name</label>
+              <div className="flex flex-col gap-2 pt-2 border-t-2 border-[#171717]">
+                <label className="text-[11px] font-bold text-[#171717]">Snapshot Name</label>
                 <div className="flex items-center gap-2">
                   <input
                     type="text"
@@ -489,7 +487,7 @@ Key Requirements:
 
               {/* Scored Entries Selection List */}
               <div>
-                <div className="text-[11px] font-semibold text-slate-300 mb-2 uppercase tracking-wider">
+                <div className="text-[11px] font-bold text-[#171717] mb-2 uppercase tracking-wider">
                   Relevance Ranking & Inclusions:
                 </div>
                 <div className="flex flex-col gap-2 max-h-72 overflow-y-auto pr-1">
@@ -505,15 +503,15 @@ Key Requirements:
                         <div
                           key={entry.id}
                           onClick={() => handleToggleEntry(entry.id)}
-                          className={`p-2.5 rounded-lg border cursor-pointer transition flex items-center justify-between gap-2.5 ${
+                          className={`p-3 rounded-md border-2 border-[#171717] cursor-pointer transition flex items-center justify-between gap-2.5 ${
                             isSelected
-                              ? 'bg-slate-900/90 border-teal-500/40'
-                              : 'bg-slate-950/40 border-slate-800 opacity-50'
+                              ? 'bg-[#F7F5EC] shadow-[3px_3px_0px_#171717]'
+                              : 'bg-white opacity-60 shadow-[1px_1px_0px_#171717]'
                           }`}
                         >
                           <div className="flex-1 flex flex-col gap-0.5">
-                            <div className="flex items-center gap-2">
-                              <span className="font-semibold text-xs text-white">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="font-display font-bold text-xs text-[#171717]">
                                 {entry.title}
                               </span>
                               <span
@@ -524,19 +522,19 @@ Key Requirements:
                                 {pct}% Match
                               </span>
                             </div>
-                            <p className="text-[11px] text-slate-400 line-clamp-1">
+                            <p className="text-[11px] text-[#525252] line-clamp-1">
                               {scoreInfo?.rationale || entry.description}
                             </p>
                           </div>
 
                           <button
                             type="button"
-                            className="text-teal-400 hover:text-white"
+                            className="text-[#171717]"
                           >
                             {isSelected ? (
-                              <ToggleRight className="w-5 h-5 text-teal-400" />
+                              <ToggleRight className="w-5 h-5 text-[#047857]" />
                             ) : (
-                              <ToggleLeft className="w-5 h-5 text-slate-500" />
+                              <ToggleLeft className="w-5 h-5 text-[#737373]" />
                             )}
                           </button>
                         </div>
@@ -550,10 +548,10 @@ Key Requirements:
 
         {/* Right Pane: Live Tailored Resume Preview (7 Cols) */}
         <div className="lg:col-span-7 flex flex-col gap-3">
-          <div className="flex items-center justify-between px-2">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between px-2 gap-2">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                Tailored Live Preview
+              <span className="text-xs font-bold text-[#171717] uppercase tracking-wider font-display">
+                Tailored Live Canvas
               </span>
               {matchResult && (
                 <span className="badge badge-green text-[10px]">
@@ -565,9 +563,9 @@ Key Requirements:
             <div className="flex items-center gap-2">
               <button
                 onClick={onExportPdf}
-                className="btn-primary text-xs px-3 py-1.5 shadow-sky-500/20"
+                className="btn-primary text-xs px-3 py-1.5"
               >
-                <Download className="w-3.5 h-3.5" />
+                <Download className="w-3.5 h-3.5 text-[#171717]" />
                 <span>Export Tailored PDF</span>
               </button>
             </div>

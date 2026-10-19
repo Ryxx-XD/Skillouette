@@ -90,26 +90,28 @@ export const App: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center gap-3 text-white">
-        <RefreshCw className="w-8 h-8 text-sky-400 animate-spin" />
-        <div className="font-display text-sm tracking-wide">Loading Robotics CV Studio...</div>
+      <div className="min-h-screen bg-[#FFFDF5] flex flex-col items-center justify-center gap-3 text-[#171717]">
+        <div className="w-14 h-14 rounded-md bg-[#C6F564] border-3 border-[#171717] shadow-[4px_4px_0px_#171717] flex items-center justify-center">
+          <RefreshCw className="w-7 h-7 text-[#171717] animate-spin" />
+        </div>
+        <div className="font-display font-bold text-base tracking-tight">Loading Skillouette Studio...</div>
       </div>
     );
   }
 
   if (error || !data) {
     return (
-      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-6 text-center text-white">
-        <div className="glass-panel p-8 max-w-md flex flex-col items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center">
-            ⚠️
+      <div className="min-h-screen bg-[#FFFDF5] flex flex-col items-center justify-center p-6 text-center text-[#171717]">
+        <div className="nb-card p-8 max-w-md flex flex-col items-center gap-4 bg-white border-3 border-[#171717] shadow-[6px_6px_0px_#171717]">
+          <div className="w-14 h-14 rounded-md bg-[#FF8066] border-2 border-[#171717] shadow-[3px_3px_0px_#171717] text-[#171717] flex items-center justify-center text-2xl font-bold">
+            !
           </div>
-          <h2 className="font-display font-bold text-lg">Backend Connection Error</h2>
-          <p className="text-xs text-slate-400 leading-relaxed">
+          <h2 className="font-display font-bold text-xl">Backend Connection Error</h2>
+          <p className="text-xs text-[#525252] leading-relaxed">
             Could not reach the local Express API at <code>http://localhost:3001/api</code>.
           </p>
-          <p className="text-xs text-rose-300 font-mono">{error}</p>
-          <button onClick={loadData} className="btn-primary text-xs px-4 py-2">
+          <p className="text-xs text-[#BE123C] font-mono bg-[#FFF1F2] p-2 border-2 border-[#FF8066] rounded-md">{error}</p>
+          <button onClick={loadData} className="btn-primary text-xs px-5 py-2.5">
             Retry Connection
           </button>
         </div>
@@ -118,7 +120,7 @@ export const App: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
+    <div className="min-h-screen bg-[#FFFDF5] text-[#171717] flex flex-col">
       {/* Navigation Header */}
       <Navbar
         activeTab={activeTab}
@@ -138,37 +140,40 @@ export const App: React.FC = () => {
             {/* Left Control Column (4 Cols) */}
             <div className="no-print lg:col-span-4 flex flex-col gap-4">
               {/* Brain Dump Callout Card */}
-              <div className="glass-panel p-5 border-sky-500/30 bg-gradient-to-br from-sky-950/40 via-slate-900/60 to-slate-900/80 flex flex-col gap-3 relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-sky-500/10 rounded-full blur-2xl pointer-events-none" />
-                <div className="flex items-center gap-2 text-sky-400">
-                  <Sparkles className="w-4 h-4 text-amber-300" />
-                  <span className="text-xs font-bold tracking-wide uppercase">AI Capture Loop</span>
+              <div className="nb-card p-5 bg-[#C6F564] border-2 border-[#171717] shadow-[4px_4px_0px_#171717] flex flex-col gap-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1.5">
+                    <Sparkles className="w-4 h-4 text-[#171717]" />
+                    <span className="badge badge-sky text-[10px] uppercase font-bold tracking-wider">AI Capture Loop</span>
+                  </div>
                 </div>
-                <h3 className="font-display font-bold text-white text-base leading-tight">
+                <h3 className="font-display font-bold text-[#171717] text-lg leading-tight">
                   Freeform Brain Dump
                 </h3>
-                <p className="text-xs text-slate-300 leading-relaxed">
-                  Paste bullets, project updates, or raw thoughts. The AI model auto-classifies them into your robotics resume sections and dynamic skill subcategories.
+                <p className="text-xs text-[#171717] font-medium leading-relaxed">
+                  Paste bullets, project notes, or raw milestones. The AI automatically classifies them into your resume sections and skill matrices.
                 </p>
                 <button
                   onClick={() => setIsBrainDumpOpen(true)}
-                  className="btn-primary text-xs py-2.5 mt-1 shadow-sky-500/30"
+                  className="btn-secondary text-xs py-2 mt-1 shadow-[3px_3px_0px_#171717]"
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                  <Sparkles className="w-3.5 h-3.5 text-[#171717]" />
                   <span>Open Brain Dump Box</span>
                 </button>
               </div>
 
               {/* Profile Card & Quick Edit */}
-              <div className="glass-panel p-5 flex flex-col gap-3">
-                <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+              <div className="nb-card p-5 bg-white border-2 border-[#171717] shadow-[4px_4px_0px_#171717] flex flex-col gap-3">
+                <div className="flex items-center justify-between pb-2 border-b-2 border-[#171717]">
                   <div className="flex items-center gap-2">
-                    <User className="w-4 h-4 text-sky-400" />
-                    <h4 className="font-display font-semibold text-white text-sm">Personal Profile</h4>
+                    <div className="w-6 h-6 rounded bg-[#82D9F5] border border-[#171717] flex items-center justify-center">
+                      <User className="w-3.5 h-3.5 text-[#171717]" />
+                    </div>
+                    <h4 className="font-display font-bold text-sm text-[#171717]">Personal Profile</h4>
                   </div>
                   <button
                     onClick={() => setIsEditingProfile(!isEditingProfile)}
-                    className="text-xs text-sky-400 hover:text-sky-300 flex items-center gap-1"
+                    className="btn-secondary text-[11px] py-1 px-2.5 shadow-[2px_2px_0px_#171717]"
                   >
                     <Edit3 className="w-3 h-3" />
                     <span>{isEditingProfile ? 'Close' : 'Edit'}</span>
@@ -176,87 +181,87 @@ export const App: React.FC = () => {
                 </div>
 
                 {!isEditingProfile ? (
-                  <div className="flex flex-col gap-2 text-xs">
+                  <div className="flex flex-col gap-2.5 text-xs">
                     <div>
-                      <div className="font-bold text-white text-sm">{data.profile.name}</div>
-                      <div className="text-sky-400 font-medium">{data.profile.title}</div>
+                      <div className="font-display font-bold text-base text-[#171717]">{data.profile.name}</div>
+                      <div className="text-[#0284C7] font-bold text-xs">{data.profile.title}</div>
                     </div>
-                    <div className="text-slate-400 text-[11px] flex flex-col gap-0.5">
+                    <div className="text-[#525252] text-[11px] flex flex-col gap-1 font-mono">
                       <div>📧 {data.profile.email}</div>
                       <div>📞 {data.profile.phone}</div>
                       {data.profile.location && <div>📍 {data.profile.location}</div>}
                     </div>
-                    <div className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 text-[11px] text-slate-300 leading-relaxed italic">
+                    <div className="p-3 rounded-md bg-[#F7F5EC] border-2 border-[#171717] text-[11px] text-[#171717] leading-relaxed italic shadow-[2px_2px_0px_#171717]">
                       "{data.profile.summary}"
                     </div>
                   </div>
                 ) : (
                   <form onSubmit={handleSaveProfile} className="flex flex-col gap-2.5 text-xs">
                     <div>
-                      <label className="text-[10px] text-slate-400 uppercase">Full Name</label>
+                      <label className="text-[10px] font-bold text-[#525252] uppercase block mb-1">Full Name</label>
                       <input
                         type="text"
                         value={profileForm.name}
                         onChange={e => setProfileForm({ ...profileForm, name: e.target.value })}
-                        className="input-dark text-xs py-1"
+                        className="input-dark text-xs py-1.5"
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] text-slate-400 uppercase">Tagline / Title</label>
+                      <label className="text-[10px] font-bold text-[#525252] uppercase block mb-1">Tagline / Title</label>
                       <input
                         type="text"
                         value={profileForm.title}
                         onChange={e => setProfileForm({ ...profileForm, title: e.target.value })}
-                        className="input-dark text-xs py-1"
+                        className="input-dark text-xs py-1.5"
                       />
                     </div>
                     <div className="grid grid-cols-2 gap-2">
                       <div>
-                        <label className="text-[10px] text-slate-400 uppercase">Email</label>
+                        <label className="text-[10px] font-bold text-[#525252] uppercase block mb-1">Email</label>
                         <input
                           type="email"
                           value={profileForm.email}
                           onChange={e => setProfileForm({ ...profileForm, email: e.target.value })}
-                          className="input-dark text-xs py-1"
+                          className="input-dark text-xs py-1.5"
                         />
                       </div>
                       <div>
-                        <label className="text-[10px] text-slate-400 uppercase">Phone</label>
+                        <label className="text-[10px] font-bold text-[#525252] uppercase block mb-1">Phone</label>
                         <input
                           type="text"
                           value={profileForm.phone}
                           onChange={e => setProfileForm({ ...profileForm, phone: e.target.value })}
-                          className="input-dark text-xs py-1"
+                          className="input-dark text-xs py-1.5"
                         />
                       </div>
                     </div>
                     <div>
-                      <label className="text-[10px] text-slate-400 uppercase">Location</label>
+                      <label className="text-[10px] font-bold text-[#525252] uppercase block mb-1">Location</label>
                       <input
                         type="text"
                         value={profileForm.location}
                         onChange={e => setProfileForm({ ...profileForm, location: e.target.value })}
-                        className="input-dark text-xs py-1"
+                        className="input-dark text-xs py-1.5"
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] text-slate-400 uppercase">Summary Paragraph</label>
+                      <label className="text-[10px] font-bold text-[#525252] uppercase block mb-1">Summary Paragraph</label>
                       <textarea
                         rows={3}
                         value={profileForm.summary}
                         onChange={e => setProfileForm({ ...profileForm, summary: e.target.value })}
-                        className="input-dark text-xs py-1 leading-relaxed"
+                        className="input-dark text-xs py-1.5 leading-relaxed"
                       />
                     </div>
                     <div className="flex justify-end gap-2 pt-1">
                       <button
                         type="button"
                         onClick={() => setIsEditingProfile(false)}
-                        className="btn-secondary text-[11px] py-1 px-2.5"
+                        className="btn-secondary text-[11px] py-1 px-3 shadow-[2px_2px_0px_#171717]"
                       >
                         Cancel
                       </button>
-                      <button type="submit" className="btn-primary text-[11px] py-1 px-3">
+                      <button type="submit" className="btn-primary text-[11px] py-1 px-3.5 shadow-[2px_2px_0px_#171717]">
                         Save Profile
                       </button>
                     </div>
@@ -265,35 +270,39 @@ export const App: React.FC = () => {
               </div>
 
               {/* Sections Visibility & Quick Toggles */}
-              <div className="glass-panel p-5 flex flex-col gap-3">
-                <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+              <div className="nb-card p-5 bg-white border-2 border-[#171717] shadow-[4px_4px_0px_#171717] flex flex-col gap-3">
+                <div className="flex items-center justify-between pb-2 border-b-2 border-[#171717]">
                   <div className="flex items-center gap-2">
-                    <Layers className="w-4 h-4 text-sky-400" />
-                    <h4 className="font-display font-semibold text-white text-sm">Resume Sections</h4>
+                    <div className="w-6 h-6 rounded bg-[#B8A5FF] border border-[#171717] flex items-center justify-center">
+                      <Layers className="w-3.5 h-3.5 text-[#171717]" />
+                    </div>
+                    <h4 className="font-display font-bold text-sm text-[#171717]">Resume Sections</h4>
                   </div>
-                  <span className="text-[10px] text-slate-400 font-mono">Toggle Visibility</span>
+                  <span className="badge badge-amber text-[10px]">Toggle</span>
                 </div>
 
-                <div className="flex flex-col gap-1.5">
+                <div className="flex flex-col gap-2">
                   {data.sections.map(sec => {
                     const count = data.entries.filter(e => e.section_id === sec.id).length;
                     return (
                       <div
                         key={sec.id}
-                        className="flex items-center justify-between p-2 rounded-lg bg-slate-900/60 border border-slate-800/80 hover:border-slate-700 transition"
+                        className="flex items-center justify-between p-2 rounded-md bg-[#F7F5EC] border-2 border-[#171717] shadow-[2px_2px_0px_#171717]"
                       >
                         <div className="flex items-center gap-2">
-                          <span className="text-xs text-slate-200 font-medium">{sec.name}</span>
+                          <span className="text-xs font-bold text-[#171717]">{sec.name}</span>
                           {sec.id !== 'sec_ref' && (
-                            <span className="text-[10px] text-slate-500 font-mono">({count})</span>
+                            <span className="badge badge-sky text-[10px] py-0 px-1.5">
+                              {count}
+                            </span>
                           )}
                         </div>
                         <button
                           onClick={() => handleToggleSection(sec.id, sec.is_visible)}
-                          className={`p-1 rounded transition ${
+                          className={`p-1 rounded-sm border border-[#171717] bg-white transition shadow-[1px_1px_0px_#171717] ${
                             sec.is_visible
-                              ? 'text-sky-400 hover:text-white'
-                              : 'text-slate-600 hover:text-slate-400'
+                              ? 'text-[#0284C7]'
+                              : 'text-[#737373] bg-[#E5E5E5]'
                           }`}
                           title={sec.is_visible ? 'Visible in CV' : 'Hidden in CV'}
                         >
@@ -308,17 +317,17 @@ export const App: React.FC = () => {
 
             {/* Right Column: Live Resume Preview (8 Cols) */}
             <div className="lg:col-span-8 flex flex-col items-center gap-4">
-              <div className="no-print w-full flex items-center justify-between px-2">
+              <div className="no-print w-full flex flex-col sm:flex-row sm:items-center justify-between px-2 gap-2">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                    Live Document Canvas
+                  <span className="text-xs font-bold text-[#171717] uppercase tracking-wider font-display">
+                    Document Workspace
                   </span>
-                  <span className="badge badge-cyan text-[10px]">Reference CV Format</span>
+                  <span className="badge badge-cyan text-[10px]">Standard Clean Canvas</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => exportResumePdf(`${data.profile.name.replace(/\s+/g, '_')}_CV.pdf`)}
-                    className="btn-primary text-xs px-3 py-1.5 shadow-sky-500/20"
+                    className="btn-primary text-xs px-3 py-1.5"
                   >
                     Export PDF
                   </button>

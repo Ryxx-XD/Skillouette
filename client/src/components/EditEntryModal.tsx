@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Check, Trash2, Tag, Calendar, BarChart2 } from 'lucide-react';
+import { X, Check, Trash2 } from 'lucide-react';
 import { Section, Subsection, Entry } from '../types.js';
 import { updateEntry, deleteEntry } from '../api.js';
 
@@ -120,16 +120,20 @@ export const EditEntryModal: React.FC<EditEntryModalProps> = ({
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className="modal-content max-w-xl" onClick={(e) => e.stopPropagation()}>
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/80">
-          <h2 className="font-display font-semibold text-white text-base">Edit Resume Entry</h2>
-          <button onClick={onClose} className="text-slate-400 hover:text-white p-1 rounded-lg">
-            <X className="w-5 h-5" />
+        <div className="flex items-center justify-between px-6 py-4 border-b-2 border-[#171717] bg-[#FFFDF5]">
+          <h2 className="font-display font-black text-[#171717] text-base">Edit Resume Entry</h2>
+          <button
+            onClick={onClose}
+            className="p-1.5 border-2 border-[#171717] rounded-md bg-white hover:bg-[#FF8066] text-[#171717] transition shadow-[2px_2px_0px_#171717]"
+            title="Close"
+          >
+            <X className="w-4 h-4" />
           </button>
         </div>
 
-        <form onSubmit={handleSave} className="p-6 overflow-y-auto max-h-[75vh] flex flex-col gap-4">
+        <form onSubmit={handleSave} className="p-6 overflow-y-auto max-h-[75vh] flex flex-col gap-4 bg-white">
           {error && (
-            <div className="p-2.5 rounded bg-rose-500/20 text-rose-300 text-xs border border-rose-500/30">
+            <div className="p-2.5 rounded-md bg-[#FF8066]/20 text-[#171717] text-xs font-semibold border-2 border-[#171717] shadow-[2px_2px_0px_#171717]">
               {error}
             </div>
           )}
@@ -137,14 +141,16 @@ export const EditEntryModal: React.FC<EditEntryModalProps> = ({
           {/* Section & Subsection */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">Section</label>
+              <label className="block text-xs font-mono font-bold text-[#171717] uppercase tracking-wider mb-1">
+                Section
+              </label>
               <select
                 value={sectionId}
                 onChange={e => {
                   setSectionId(e.target.value);
                   setSubsectionId(null);
                 }}
-                className="input-dark text-xs"
+                className="w-full bg-white border-2 border-[#171717] rounded-md px-3 py-2 text-xs text-[#171717] font-semibold focus:outline-none focus:shadow-[2px_2px_0px_#171717]"
               >
                 {sections.map(s => (
                   <option key={s.id} value={s.id}>
@@ -156,11 +162,13 @@ export const EditEntryModal: React.FC<EditEntryModalProps> = ({
 
             {sectionId === 'sec_skills' && (
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">Skill Category</label>
+                <label className="block text-xs font-mono font-bold text-[#171717] uppercase tracking-wider mb-1">
+                  Skill Category
+                </label>
                 <select
                   value={subsectionId || ''}
                   onChange={e => setSubsectionId(e.target.value || null)}
-                  className="input-dark text-xs"
+                  className="w-full bg-white border-2 border-[#171717] rounded-md px-3 py-2 text-xs text-[#171717] font-semibold focus:outline-none focus:shadow-[2px_2px_0px_#171717]"
                 >
                   <option value="">(No Subcategory)</option>
                   {subsections.filter(s => s.section_id === 'sec_skills').map(sub => (
@@ -176,95 +184,113 @@ export const EditEntryModal: React.FC<EditEntryModalProps> = ({
           {/* Title & Role */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">Title</label>
+              <label className="block text-xs font-mono font-bold text-[#171717] uppercase tracking-wider mb-1">
+                Title
+              </label>
               <input
                 type="text"
                 required
                 value={title}
                 onChange={e => setTitle(e.target.value)}
-                className="input-dark text-xs font-semibold"
+                className="w-full bg-white border-2 border-[#171717] rounded-md px-3 py-2 text-xs text-[#171717] font-bold focus:outline-none focus:shadow-[2px_2px_0px_#171717]"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">Role / Subtitle</label>
+              <label className="block text-xs font-mono font-bold text-[#171717] uppercase tracking-wider mb-1">
+                Role / Subtitle
+              </label>
               <input
                 type="text"
                 value={role}
                 onChange={e => setRole(e.target.value)}
-                className="input-dark text-xs"
+                className="w-full bg-white border-2 border-[#171717] rounded-md px-3 py-2 text-xs text-[#171717] font-semibold focus:outline-none focus:shadow-[2px_2px_0px_#171717]"
               />
             </div>
           </div>
 
           {/* Institution */}
           <div>
-            <label className="block text-xs font-medium text-slate-300 mb-1">Institution / Organization</label>
+            <label className="block text-xs font-mono font-bold text-[#171717] uppercase tracking-wider mb-1">
+              Institution / Organization
+            </label>
             <input
               type="text"
               value={institution}
               onChange={e => setInstitution(e.target.value)}
-              className="input-dark text-xs"
+              className="w-full bg-white border-2 border-[#171717] rounded-md px-3 py-2 text-xs text-[#171717] font-semibold focus:outline-none focus:shadow-[2px_2px_0px_#171717]"
             />
           </div>
 
           {/* Description */}
           <div>
-            <label className="block text-xs font-medium text-slate-300 mb-1">Description</label>
+            <label className="block text-xs font-mono font-bold text-[#171717] uppercase tracking-wider mb-1">
+              Description
+            </label>
             <textarea
               required
               rows={4}
               value={description}
               onChange={e => setDescription(e.target.value)}
-              className="input-dark text-xs leading-relaxed"
+              className="w-full bg-white border-2 border-[#171717] rounded-md p-3 text-xs text-[#171717] font-sans focus:outline-none focus:shadow-[2px_2px_0px_#171717] leading-relaxed resize-y"
             />
           </div>
 
           {/* Quantified Impact & Dates */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">Key Impact / Metric</label>
+              <label className="block text-xs font-mono font-bold text-[#171717] uppercase tracking-wider mb-1">
+                Key Impact / Metric
+              </label>
               <input
                 type="text"
                 value={metrics}
                 onChange={e => setMetrics(e.target.value)}
                 placeholder="e.g. 99.4% packet reception"
-                className="input-dark text-xs text-sky-300"
+                className="w-full bg-white border-2 border-[#171717] rounded-md px-3 py-2 text-xs text-[#171717] font-semibold focus:outline-none focus:shadow-[2px_2px_0px_#171717]"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">Start Date</label>
+              <label className="block text-xs font-mono font-bold text-[#171717] uppercase tracking-wider mb-1">
+                Start Date
+              </label>
               <input
                 type="text"
                 value={dateStart}
                 onChange={e => setDateStart(e.target.value)}
-                className="input-dark text-xs"
+                className="w-full bg-white border-2 border-[#171717] rounded-md px-3 py-2 text-xs text-[#171717] font-semibold focus:outline-none focus:shadow-[2px_2px_0px_#171717]"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">End Date</label>
+              <label className="block text-xs font-mono font-bold text-[#171717] uppercase tracking-wider mb-1">
+                End Date
+              </label>
               <input
                 type="text"
                 value={dateEnd}
                 onChange={e => setDateEnd(e.target.value)}
-                className="input-dark text-xs"
+                className="w-full bg-white border-2 border-[#171717] rounded-md px-3 py-2 text-xs text-[#171717] font-semibold focus:outline-none focus:shadow-[2px_2px_0px_#171717]"
               />
             </div>
           </div>
 
           {/* Link */}
           <div>
-            <label className="block text-xs font-medium text-slate-300 mb-1">Project Link (GitHub / Demo)</label>
+            <label className="block text-xs font-mono font-bold text-[#171717] uppercase tracking-wider mb-1">
+              Project Link (GitHub / Demo)
+            </label>
             <input
               type="text"
               value={linkInput}
               onChange={e => setLinkInput(e.target.value)}
-              className="input-dark text-xs text-sky-400"
+              className="w-full bg-white border-2 border-[#171717] rounded-md px-3 py-2 text-xs text-[#171717] font-semibold focus:outline-none focus:shadow-[2px_2px_0px_#171717]"
             />
           </div>
 
           {/* Tags */}
           <div>
-            <label className="block text-xs font-medium text-slate-300 mb-1">Tags</label>
+            <label className="block text-xs font-mono font-bold text-[#171717] uppercase tracking-wider mb-1">
+              Tags
+            </label>
             <div className="flex items-center gap-2 mb-2">
               <input
                 type="text"
@@ -277,21 +303,25 @@ export const EditEntryModal: React.FC<EditEntryModalProps> = ({
                   }
                 }}
                 placeholder="Add tag and press Enter"
-                className="input-dark text-xs"
+                className="flex-1 bg-white border-2 border-[#171717] rounded-md px-3 py-2 text-xs text-[#171717] font-semibold focus:outline-none focus:shadow-[2px_2px_0px_#171717]"
               />
               <button
                 type="button"
                 onClick={addTag}
-                className="btn-secondary text-xs px-3 py-2"
+                className="btn-secondary text-xs px-3 py-2 font-bold"
               >
                 Add
               </button>
             </div>
             <div className="flex flex-wrap gap-1.5">
               {tags.map((t, idx) => (
-                <span key={idx} className="badge badge-cyan text-xs">
+                <span key={idx} className="badge badge-sky text-xs font-bold">
                   {t}
-                  <button type="button" onClick={() => removeTag(t)} className="ml-1 text-sky-200 hover:text-white">
+                  <button
+                    type="button"
+                    onClick={() => removeTag(t)}
+                    className="ml-1 text-[#171717] hover:text-[#FF8066] font-bold"
+                  >
                     ×
                   </button>
                 </span>
@@ -300,24 +330,24 @@ export const EditEntryModal: React.FC<EditEntryModalProps> = ({
           </div>
 
           {/* Action buttons */}
-          <div className="flex items-center justify-between pt-4 border-t border-slate-800">
+          <div className="flex items-center justify-between pt-4 border-t-2 border-[#171717]">
             <button
               type="button"
               onClick={handleDelete}
-              className="btn-danger text-xs px-3"
+              className="btn-danger text-xs px-3 font-bold"
             >
               <Trash2 className="w-3.5 h-3.5" />
               <span>Delete Entry</span>
             </button>
 
             <div className="flex items-center gap-2">
-              <button type="button" onClick={onClose} className="btn-secondary text-xs px-4">
+              <button type="button" onClick={onClose} className="btn-secondary text-xs px-4 font-bold">
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="btn-primary text-xs px-5 shadow-sky-500/25"
+                className="btn-primary text-xs px-5 font-bold"
               >
                 <Check className="w-4 h-4" />
                 <span>Save Changes</span>

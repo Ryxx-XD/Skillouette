@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, X, Check, AlertTriangle, Plus, ArrowRight, Tag, Calendar, BarChart2, Layers } from 'lucide-react';
+import { Sparkles, X, Check, AlertTriangle, ArrowRight, Tag, Calendar, BarChart2, Layers } from 'lucide-react';
 import { Section, Subsection, CategorizedItem } from '../types.js';
 import { captureBrainDump, commitCategorizedEntries } from '../api.js';
 
@@ -24,7 +24,7 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
   const [parsedItems, setParsedItems] = useState<CategorizedItem[] | null>(null);
   const [modelUsed, setModelUsed] = useState<string>('');
   
-  // Pending new section approvals (map of temp section_id -> approved name)
+  // Pending new section approvals
   const [newSectionDecisions, setNewSectionDecisions] = useState<Record<string, { action: 'create' | 'reassign'; targetSectionId?: string; name: string }>>({});
 
   useEffect(() => {
@@ -83,7 +83,6 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
     setError(null);
 
     try {
-      // Gather sections to create
       const sectionsToCreate: Array<{ id: string; name: string }> = [];
       const updatedItems = parsedItems.map((item, idx) => {
         const decKey = `new_${idx}`;
@@ -115,7 +114,6 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
       await commitCategorizedEntries(updatedItems, sectionsToCreate);
       onSuccess();
       onClose();
-      // Reset
       setRawText('');
       setParsedItems(null);
     } catch (err: any) {
@@ -129,16 +127,16 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
     <div className="modal-backdrop" onClick={onClose}>
       <div className="modal-content max-w-3xl" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/80">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-sky-500/20 text-sky-400 flex items-center justify-center">
-              <Sparkles className="w-4 h-4" />
+        <div className="flex items-center justify-between px-6 py-4 border-b-2 border-[#171717] bg-[#FFFDF5]">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-md bg-[#C6F564] border-2 border-[#171717] text-[#171717] flex items-center justify-center shadow-[2px_2px_0px_#171717]">
+              <Sparkles className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="font-display font-semibold text-white text-base">
+              <h2 className="font-display font-black text-[#171717] text-lg">
                 {parsedItems ? 'Review & Confirm Categorization' : 'Career Brain Dump'}
               </h2>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-[#525252] font-medium">
                 {parsedItems
                   ? `AI parsed ${parsedItems.length} distinct item${parsedItems.length > 1 ? 's' : ''} using ${modelUsed}`
                   : 'Paste any raw notes, bullets, or achievements — our AI organizes them into your schema'}
@@ -147,17 +145,18 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-white p-1 rounded-lg transition"
+            className="p-1.5 border-2 border-[#171717] rounded-md bg-white hover:bg-[#FF8066] text-[#171717] transition shadow-[2px_2px_0px_#171717]"
+            title="Close"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Body */}
-        <div className="p-6 overflow-y-auto max-h-[70vh] flex flex-col gap-4">
+        <div className="p-6 overflow-y-auto max-h-[70vh] flex flex-col gap-4 bg-white">
           {error && (
-            <div className="p-3 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4 flex-shrink-0" />
+            <div className="p-3 rounded-md bg-[#FF8066]/20 border-2 border-[#171717] text-[#171717] text-xs font-semibold flex items-center gap-2 shadow-[2px_2px_0px_#171717]">
+              <AlertTriangle className="w-4 h-4 flex-shrink-0 text-[#171717]" />
               <span>{error}</span>
             </div>
           )}
@@ -165,7 +164,7 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
           {!parsedItems ? (
             /* Input Step */
             <div className="flex flex-col gap-3">
-              <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
+              <label className="text-xs font-mono font-bold text-[#171717] uppercase tracking-wider">
                 Raw Input Text
               </label>
               <textarea
@@ -173,17 +172,19 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
                 onChange={e => setRawText(e.target.value)}
                 placeholder="Example: Engineered a 4-layer STM32 power management PCB with MPPT buck converter for our autonomous tilapia pond vessel, improving battery life by 45%. Also won 1st Place at the National Autonomous Robotics Hackathon 2025!"
                 rows={8}
-                className="input-dark font-sans text-sm resize-y leading-relaxed"
+                className="w-full bg-white border-2 border-[#171717] rounded-md p-3 text-xs text-[#171717] font-mono focus:outline-none focus:shadow-[3px_3px_0px_#171717] resize-y leading-relaxed"
                 autoFocus
               />
-              <div className="flex flex-wrap items-center justify-between text-xs text-slate-400 mt-1">
+              <div className="flex flex-wrap items-center justify-between text-xs text-[#525252] mt-1 font-medium">
                 <span>Supports multiple mixed bullets, dates, metrics, and new section topics.</span>
-                <span className="font-mono">{rawText.length} characters</span>
+                <span className="font-mono font-bold text-[#171717]">{rawText.length} characters</span>
               </div>
 
               {/* Sample Prompts */}
-              <div className="mt-2 pt-3 border-t border-slate-800">
-                <div className="text-[11px] font-medium text-slate-400 mb-2">Quick test examples:</div>
+              <div className="mt-2 pt-3 border-t-2 border-[#171717]">
+                <div className="text-[11px] font-mono font-bold text-[#525252] uppercase tracking-wider mb-2">
+                  Quick test examples:
+                </div>
                 <div className="flex flex-wrap gap-2">
                   <button
                     type="button"
@@ -192,7 +193,7 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
                         "Designed and deployed custom dual brushless thruster ESC controller on STM32G4 with CAN-bus interface for the tilapia surface robot. Attained 94% motor driver efficiency under continuous 6-hour autonomous surveys."
                       )
                     }
-                    className="text-[11px] bg-slate-800/80 hover:bg-slate-700 text-sky-300 px-2.5 py-1 rounded border border-slate-700 transition"
+                    className="text-[11px] bg-white hover:bg-[#82D9F5] text-[#171717] font-bold px-2.5 py-1 rounded-md border-2 border-[#171717] shadow-[2px_2px_0px_#171717] transition cursor-pointer"
                   >
                     + Aquaculture Motor Driver
                   </button>
@@ -203,7 +204,7 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
                         "Filed provisional patent application #63/981,204 on 'Ultra-Low-Power Wearable Multi-Modal Biomechanical Telemetry for Seizure Detection' with the US Patent Office."
                       )
                     }
-                    className="text-[11px] bg-slate-800/80 hover:bg-slate-700 text-purple-300 px-2.5 py-1 rounded border border-slate-700 transition"
+                    className="text-[11px] bg-white hover:bg-[#B8A5FF] text-[#171717] font-bold px-2.5 py-1 rounded-md border-2 border-[#171717] shadow-[2px_2px_0px_#171717] transition cursor-pointer"
                   >
                     + New Section (Patent)
                   </button>
@@ -214,7 +215,7 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
                         "Completed 40-hour intensive hands-on training course in FreeRTOS Real-Time Kernel Internals and Embedded Thread Synchronization. Also published conference paper in IEEE Mechatronics."
                       )
                     }
-                    className="text-[11px] bg-slate-800/80 hover:bg-slate-700 text-teal-300 px-2.5 py-1 rounded border border-slate-700 transition"
+                    className="text-[11px] bg-white hover:bg-[#C6F564] text-[#171717] font-bold px-2.5 py-1 rounded-md border-2 border-[#171717] shadow-[2px_2px_0px_#171717] transition cursor-pointer"
                   >
                     + Compound (Training + Publication)
                   </button>
@@ -232,12 +233,12 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
                 return (
                   <div
                     key={idx}
-                    className="glass-panel p-4 flex flex-col gap-3.5 border-slate-700/70 relative"
+                    className="nb-card p-4 flex flex-col gap-3.5 bg-white border-2 border-[#171717] shadow-[4px_4px_0px_#171717] relative"
                   >
                     {/* Item Top Bar */}
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
-                        <span className="w-5 h-5 rounded-full bg-slate-800 text-slate-300 text-[11px] font-mono font-bold flex items-center justify-center">
+                        <span className="w-6 h-6 rounded-md bg-[#171717] text-white text-xs font-mono font-bold flex items-center justify-center">
                           {idx + 1}
                         </span>
 
@@ -249,7 +250,7 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
                             handleUpdateItemField(idx, 'section_id', e.target.value);
                             handleUpdateItemField(idx, 'section_name', sec?.name || '');
                           }}
-                          className="bg-slate-900 border border-slate-700 text-white text-xs rounded-lg px-2.5 py-1 font-medium focus:border-sky-400 outline-none"
+                          className="bg-white border-2 border-[#171717] text-[#171717] text-xs font-bold rounded-md px-2.5 py-1.5 focus:shadow-[2px_2px_0px_#171717] outline-none"
                         >
                           {sections.map(s => (
                             <option key={s.id} value={s.id}>
@@ -268,7 +269,7 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
                           <select
                             value={item.subsection_id || ''}
                             onChange={e => handleUpdateItemField(idx, 'subsection_id', e.target.value || null)}
-                            className="bg-slate-900 border border-slate-700 text-slate-300 text-xs rounded-lg px-2 py-1 outline-none"
+                            className="bg-white border-2 border-[#171717] text-[#171717] text-xs font-bold rounded-md px-2.5 py-1.5 focus:shadow-[2px_2px_0px_#171717] outline-none"
                           >
                             <option value="">(No Subcategory)</option>
                             {subsections.filter(sub => sub.section_id === 'sec_skills').map(sub => (
@@ -284,14 +285,14 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
                       <div className="flex items-center gap-1.5">
                         {isLowConfidence ? (
                           <span
-                            className="badge badge-amber text-xs"
+                            className="badge badge-yellow text-xs font-bold"
                             title="Confidence < 70%. Please verify section and title."
                           >
                             <AlertTriangle className="w-3 h-3" />
                             {Math.round(item.confidence * 100)}% Confidence (Review)
                           </span>
                         ) : (
-                          <span className="badge badge-green text-xs">
+                          <span className="badge badge-lime text-xs font-bold">
                             <Check className="w-3 h-3" />
                             {Math.round(item.confidence * 100)}% Match
                           </span>
@@ -301,9 +302,9 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
 
                     {/* New Section Confirmation Banner */}
                     {item.is_new_section && decision && (
-                      <div className="p-3 rounded-lg bg-sky-950/40 border border-sky-500/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
-                        <div className="flex items-center gap-2 text-sky-200">
-                          <Layers className="w-4 h-4 text-sky-400 flex-shrink-0" />
+                      <div className="p-3 rounded-md bg-[#82D9F5]/20 border-2 border-[#171717] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs shadow-[2px_2px_0px_#171717]">
+                        <div className="flex items-center gap-2 text-[#171717] font-semibold">
+                          <Layers className="w-4 h-4 text-[#171717] flex-shrink-0" />
                           <span>
                             This item does not fit existing categories. Propose creating: <strong>"{decision.name}"</strong>?
                           </span>
@@ -317,10 +318,10 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
                                 [decKey]: { ...prev[decKey], action: 'create' }
                               }))
                             }
-                            className={`px-2.5 py-1 rounded text-[11px] font-semibold transition ${
+                            className={`px-3 py-1 rounded-md text-xs font-bold border-2 border-[#171717] shadow-[2px_2px_0px_#171717] transition ${
                               decision.action === 'create'
-                                ? 'bg-sky-500 text-white'
-                                : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                                ? 'bg-[#C6F564] text-[#171717]'
+                                : 'bg-white text-[#525252] hover:bg-[#F2EFE7]'
                             }`}
                           >
                             ✓ Create Section
@@ -335,7 +336,7 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
                                 handleUpdateItemField(idx, 'section_id', e.target.value);
                               }
                             }}
-                            className="bg-slate-800 text-slate-300 px-2 py-1 rounded text-[11px] border border-slate-700 outline-none"
+                            className="bg-white text-[#171717] px-2 py-1 rounded-md text-xs font-bold border-2 border-[#171717] shadow-[2px_2px_0px_#171717] outline-none"
                           >
                             <option value="">Reassign to...</option>
                             {sections.map(s => (
@@ -355,7 +356,7 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
                         value={item.title}
                         onChange={e => handleUpdateItemField(idx, 'title', e.target.value)}
                         placeholder="Title / Role / Achievement Heading"
-                        className="input-dark font-semibold text-sm"
+                        className="w-full bg-white border-2 border-[#171717] rounded-md px-3 py-2 text-sm font-bold text-[#171717] focus:outline-none focus:shadow-[2px_2px_0px_#171717]"
                       />
                     </div>
 
@@ -365,40 +366,40 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
                         value={item.description}
                         onChange={e => handleUpdateItemField(idx, 'description', e.target.value)}
                         rows={3}
-                        className="input-dark text-xs resize-y leading-relaxed"
+                        className="w-full bg-white border-2 border-[#171717] rounded-md p-2.5 text-xs text-[#171717] font-sans focus:outline-none focus:shadow-[2px_2px_0px_#171717] resize-y leading-relaxed"
                         placeholder="Detailed description of achievement, methodologies, and engineering implementation"
                       />
                     </div>
 
                     {/* Quantitative Metric & Date Row */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                      <div className="flex items-center gap-2 bg-slate-900/60 p-2 rounded-lg border border-slate-800">
-                        <BarChart2 className="w-3.5 h-3.5 text-sky-400 flex-shrink-0" />
+                      <div className="flex items-center gap-2 bg-[#F7F5EC] p-2 rounded-md border-2 border-[#171717] shadow-[2px_2px_0px_#171717]">
+                        <BarChart2 className="w-3.5 h-3.5 text-[#171717] flex-shrink-0" />
                         <input
                           type="text"
                           value={item.metrics || ''}
                           onChange={e => handleUpdateItemField(idx, 'metrics', e.target.value)}
                           placeholder="Quantified Result (e.g. 94% efficiency, 42 FPS)"
-                          className="bg-transparent text-xs text-sky-300 placeholder-slate-500 w-full outline-none"
+                          className="bg-transparent text-xs text-[#171717] font-semibold placeholder-[#737373] w-full outline-none"
                         />
                       </div>
-                      <div className="flex items-center gap-2 bg-slate-900/60 p-2 rounded-lg border border-slate-800">
-                        <Calendar className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
+                      <div className="flex items-center gap-2 bg-[#F7F5EC] p-2 rounded-md border-2 border-[#171717] shadow-[2px_2px_0px_#171717]">
+                        <Calendar className="w-3.5 h-3.5 text-[#171717] flex-shrink-0" />
                         <input
                           type="text"
                           value={item.date_start || ''}
                           onChange={e => handleUpdateItemField(idx, 'date_start', e.target.value)}
                           placeholder="Date / Timeline (e.g. 2025 or May 2024)"
-                          className="bg-transparent text-xs text-slate-200 placeholder-slate-500 w-full outline-none"
+                          className="bg-transparent text-xs text-[#171717] font-semibold placeholder-[#737373] w-full outline-none"
                         />
                       </div>
                     </div>
 
                     {/* Tags */}
                     <div className="flex items-center gap-1.5 flex-wrap">
-                      <Tag className="w-3 h-3 text-slate-400" />
+                      <Tag className="w-3.5 h-3.5 text-[#171717]" />
                       {item.tags.map((tag, tIdx) => (
-                        <span key={tIdx} className="badge badge-cyan text-[10px]">
+                        <span key={tIdx} className="badge badge-sky text-[10px] font-bold">
                           {tag}
                         </span>
                       ))}
@@ -413,7 +414,7 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
                             (e.target as HTMLInputElement).value = '';
                           }
                         }}
-                        className="bg-slate-900/90 text-slate-300 px-2 py-0.5 rounded text-[10px] border border-slate-700 w-20 outline-none"
+                        className="bg-white text-[#171717] px-2 py-0.5 rounded-md text-[10px] font-semibold border-2 border-[#171717] w-20 outline-none"
                       />
                     </div>
                   </div>
@@ -424,7 +425,7 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
         </div>
 
         {/* Footer Actions */}
-        <div className="flex items-center justify-between px-6 py-4 border-t border-slate-800 bg-slate-900/80">
+        <div className="flex items-center justify-between px-6 py-4 border-t-2 border-[#171717] bg-[#FFFDF5]">
           {!parsedItems ? (
             <>
               <button
@@ -438,7 +439,7 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
                 type="button"
                 onClick={handleParse}
                 disabled={isProcessing}
-                className="btn-primary text-xs px-5 shadow-sky-500/25"
+                className="btn-primary text-xs px-5"
               >
                 {isProcessing ? (
                   <>
@@ -447,7 +448,7 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
                   </>
                 ) : (
                   <>
-                    <Sparkles className="w-4 h-4 text-amber-300" />
+                    <Sparkles className="w-4 h-4" />
                     <span>Categorize with AI</span>
                     <ArrowRight className="w-3.5 h-3.5 ml-1" />
                   </>
@@ -475,7 +476,7 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
                   type="button"
                   onClick={handleCommit}
                   disabled={isProcessing}
-                  className="btn-accent text-xs px-5 shadow-emerald-500/25"
+                  className="btn-primary text-xs px-5"
                 >
                   {isProcessing ? (
                     'Saving...'

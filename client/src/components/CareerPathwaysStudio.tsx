@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Compass, ArrowRight, ShieldCheck, CheckCircle2, AlertCircle, Sparkles, RefreshCw, Layers, Award } from 'lucide-react';
+import { Compass, ArrowRight, ShieldCheck, CheckCircle2, AlertCircle, RefreshCw, Layers } from 'lucide-react';
 import { ResumeData, CareerPathway } from '../types.js';
 import { generateCareerPathways } from '../api.js';
 
@@ -36,18 +36,18 @@ export const CareerPathwaysStudio: React.FC<CareerPathwaysStudioProps> = ({ data
   return (
     <div className="w-full max-w-7xl mx-auto flex flex-col gap-6 py-6 px-4">
       {/* Top Hero Banner */}
-      <div className="glass-panel p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-l-4 border-l-violet-500">
+      <div className="nb-card p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-l-8 border-l-[#B8A5FF]">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="badge badge-cyan text-xs font-mono">Core Feature G</span>
-            <span className="badge badge-emerald text-xs font-mono flex items-center gap-1">
+          <div className="flex items-center gap-2 mb-2 flex-wrap">
+            <span className="badge badge-lavender text-xs font-mono">Core Feature G</span>
+            <span className="badge badge-lime text-xs font-mono flex items-center gap-1">
               <ShieldCheck className="w-3.5 h-3.5" /> Transferable Competency Intelligence
             </span>
           </div>
-          <h2 className="font-display font-bold text-2xl text-white">
+          <h2 className="font-display font-black text-2xl text-[#171717] tracking-tight">
             Adjacent Career Pathways & Opportunities
           </h2>
-          <p className="text-xs text-slate-400 max-w-2xl mt-1">
+          <p className="text-xs text-[#525252] max-w-2xl mt-1 font-medium">
             Discover realistic technical trajectories tailored to your documented engineering capabilities.
             Explore transferable strengths and transparently identify required bridging qualifications.
           </p>
@@ -56,7 +56,7 @@ export const CareerPathwaysStudio: React.FC<CareerPathwaysStudioProps> = ({ data
         <button
           onClick={handleGeneratePathways}
           disabled={loading}
-          className="btn-primary text-xs py-2.5 px-4 flex items-center gap-2 rounded-lg shadow-lg shadow-sky-500/20"
+          className="btn-primary text-xs py-2.5 px-4 flex items-center gap-2 font-bold shrink-0"
         >
           {loading ? (
             <>
@@ -71,7 +71,7 @@ export const CareerPathwaysStudio: React.FC<CareerPathwaysStudioProps> = ({ data
       </div>
 
       {error && (
-        <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs">
+        <div className="p-4 rounded-md bg-[#FF8066]/20 border-2 border-[#171717] text-[#171717] text-xs font-semibold shadow-[2px_2px_0px_#171717]">
           {error}
         </div>
       )}
@@ -79,28 +79,35 @@ export const CareerPathwaysStudio: React.FC<CareerPathwaysStudioProps> = ({ data
       {/* Pathways List */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {pathways.map(path => (
-          <div key={path.id} className="glass-panel p-6 flex flex-col justify-between gap-5 transition-all hover:border-slate-700">
+          <div
+            key={path.id}
+            className="nb-card p-6 flex flex-col justify-between gap-5 transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[8px_8px_0px_#171717]"
+          >
             {/* Header: Title & Similarity score */}
             <div className="flex flex-col gap-3">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">Target Trajectory</span>
-                  <h3 className="font-display font-bold text-lg text-white">{path.target_role}</h3>
+                  <span className="text-[10px] font-mono font-bold text-[#525252] uppercase tracking-wider block">
+                    Target Trajectory
+                  </span>
+                  <h3 className="font-display font-black text-xl text-[#171717]">{path.target_role}</h3>
                 </div>
                 <div className="text-right">
-                  <div className="font-display font-bold text-xl text-sky-400">{path.similarity_score}%</div>
-                  <span className="text-[10px] font-mono text-slate-400">Readiness Match</span>
+                  <div className="font-display font-black text-3xl text-[#171717]">
+                    {path.similarity_score}%
+                  </div>
+                  <span className="text-[10px] font-mono font-bold text-[#525252]">Readiness Match</span>
                 </div>
               </div>
 
               {/* Transferable Strengths */}
-              <div className="flex flex-col gap-1.5 mt-2">
-                <span className="text-[11px] font-mono text-emerald-400 uppercase tracking-wider flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5" /> Transferable Competencies:
+              <div className="flex flex-col gap-2 mt-2">
+                <span className="text-[11px] font-mono font-bold text-[#171717] uppercase tracking-wider flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#171717]" /> Transferable Competencies:
                 </span>
                 <div className="flex flex-wrap gap-1.5">
                   {path.transferable_competencies.map((comp, idx) => (
-                    <span key={idx} className="badge badge-emerald text-[11px]">
+                    <span key={idx} className="badge badge-lime text-[11px] font-bold">
                       {comp}
                     </span>
                   ))}
@@ -109,13 +116,13 @@ export const CareerPathwaysStudio: React.FC<CareerPathwaysStudioProps> = ({ data
 
               {/* Remaining Skill Gaps */}
               {path.remaining_skill_gaps.length > 0 && (
-                <div className="flex flex-col gap-1.5 mt-1">
-                  <span className="text-[11px] font-mono text-amber-400 uppercase tracking-wider flex items-center gap-1">
-                    <AlertCircle className="w-3.5 h-3.5" /> Bridging Gaps:
+                <div className="flex flex-col gap-2 mt-1">
+                  <span className="text-[11px] font-mono font-bold text-[#171717] uppercase tracking-wider flex items-center gap-1.5">
+                    <AlertCircle className="w-3.5 h-3.5 text-[#171717]" /> Bridging Gaps:
                   </span>
                   <div className="flex flex-wrap gap-1.5">
                     {path.remaining_skill_gaps.map((gap, idx) => (
-                      <span key={idx} className="badge badge-amber text-[11px]">
+                      <span key={idx} className="badge badge-yellow text-[11px] font-bold">
                         {gap}
                       </span>
                     ))}
@@ -124,14 +131,14 @@ export const CareerPathwaysStudio: React.FC<CareerPathwaysStudioProps> = ({ data
               )}
 
               {/* Recommended Learning Roadmap */}
-              <div className="flex flex-col gap-2 mt-2 bg-slate-900/60 p-3.5 rounded-xl border border-slate-800">
-                <span className="text-[11px] font-mono text-sky-400 uppercase tracking-wider flex items-center gap-1">
-                  <Layers className="w-3.5 h-3.5" /> Recommended Transition Roadmap:
+              <div className="flex flex-col gap-2.5 mt-2 bg-[#F7F5EC] p-4 rounded-md border-2 border-[#171717] shadow-[2px_2px_0px_#171717]">
+                <span className="text-[11px] font-mono font-bold text-[#171717] uppercase tracking-wider flex items-center gap-1">
+                  <Layers className="w-3.5 h-3.5 text-[#171717]" /> Recommended Transition Roadmap:
                 </span>
-                <div className="flex flex-col gap-1.5">
+                <div className="flex flex-col gap-2">
                   {path.recommended_roadmap.map((step, idx) => (
-                    <div key={idx} className="flex items-start gap-2 text-[11px] text-slate-300">
-                      <ArrowRight className="w-3.5 h-3.5 text-sky-400 shrink-0 mt-0.5" />
+                    <div key={idx} className="flex items-start gap-2 text-xs text-[#171717] font-medium">
+                      <ArrowRight className="w-4 h-4 text-[#171717] shrink-0 mt-0.5" />
                       <span>{step}</span>
                     </div>
                   ))}
@@ -140,7 +147,7 @@ export const CareerPathwaysStudio: React.FC<CareerPathwaysStudioProps> = ({ data
             </div>
 
             {/* Disclaimer & Limitations */}
-            <div className="pt-3 border-t border-slate-800/80 text-[10px] text-slate-400 font-mono italic">
+            <div className="pt-3 border-t-2 border-[#171717] text-[10px] text-[#525252] font-mono font-medium italic">
               Note: {path.limitations_disclaimer}
             </div>
           </div>
