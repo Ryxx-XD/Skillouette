@@ -66,10 +66,10 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Center Mode Switcher Tabs */}
-        <nav className="flex items-center bg-white p-1 rounded-md border-2 border-[#171717] shadow-[3px_3px_0px_#171717] overflow-x-auto max-w-full gap-1">
+        <nav className="flex items-center bg-white p-1 rounded-md border-2 border-[#171717] shadow-[3px_3px_0px_#171717] overflow-x-auto max-w-full gap-1 shrink-0">
           <button
             onClick={() => setActiveTab('builder')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-xs font-bold whitespace-nowrap transition border-2 ${
+            className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-xs font-bold whitespace-nowrap transition border-2 ${
               activeTab === 'builder'
                 ? 'bg-[#C6F564] text-[#171717] border-[#171717] shadow-[2px_2px_0px_#171717]'
                 : 'text-[#171717] border-transparent hover:bg-[#F7F5EC]'
@@ -81,7 +81,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <button
             onClick={() => setActiveTab('dashboard')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-xs font-bold whitespace-nowrap transition border-2 ${
+            className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-xs font-bold whitespace-nowrap transition border-2 ${
               activeTab === 'dashboard'
                 ? 'bg-[#82D9F5] text-[#171717] border-[#171717] shadow-[2px_2px_0px_#171717]'
                 : 'text-[#171717] border-transparent hover:bg-[#F7F5EC]'
@@ -93,7 +93,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <button
             onClick={() => setActiveTab('jobmatch')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-xs font-bold whitespace-nowrap transition border-2 ${
+            className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-xs font-bold whitespace-nowrap transition border-2 ${
               activeTab === 'jobmatch'
                 ? 'bg-[#B8A5FF] text-[#171717] border-[#171717] shadow-[2px_2px_0px_#171717]'
                 : 'text-[#171717] border-transparent hover:bg-[#F7F5EC]'
@@ -105,7 +105,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <button
             onClick={() => setActiveTab('upskilling')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-xs font-bold whitespace-nowrap transition border-2 ${
+            className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-xs font-bold whitespace-nowrap transition border-2 ${
               activeTab === 'upskilling'
                 ? 'bg-[#FF8066] text-[#171717] border-[#171717] shadow-[2px_2px_0px_#171717]'
                 : 'text-[#171717] border-transparent hover:bg-[#F7F5EC]'
@@ -117,7 +117,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <button
             onClick={() => setActiveTab('pathways')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-xs font-bold whitespace-nowrap transition border-2 ${
+            className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-xs font-bold whitespace-nowrap transition border-2 ${
               activeTab === 'pathways'
                 ? 'bg-[#FDE047] text-[#171717] border-[#171717] shadow-[2px_2px_0px_#171717]'
                 : 'text-[#171717] border-transparent hover:bg-[#F7F5EC]'
