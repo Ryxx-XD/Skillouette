@@ -390,13 +390,15 @@ export const App: React.FC = () => {
         onSuccess={loadData}
       />
 
-      <EditEntryModal
-        entry={editingEntry}
-        sections={data.sections}
-        subsections={data.subsections}
-        onClose={() => setEditingEntry(null)}
-        onSuccess={loadData}
-      />
+      {editingEntry && (
+        <EditEntryModal
+          entry={editingEntry}
+          sections={data.sections}
+          subsections={data.subsections}
+          onClose={() => setEditingEntry(null)}
+          onSuccess={loadData}
+        />
+      )}
 
       <SettingsModal
         isOpen={isSettingsOpen}

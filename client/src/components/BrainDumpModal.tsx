@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Sparkles, X, Check, AlertTriangle, Plus, ArrowRight, Tag, Calendar, BarChart2, Layers } from 'lucide-react';
 import { Section, Subsection, CategorizedItem } from '../types.js';
 import { captureBrainDump, commitCategorizedEntries } from '../api.js';
@@ -26,6 +26,15 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
   
   // Pending new section approvals (map of temp section_id -> approved name)
   const [newSectionDecisions, setNewSectionDecisions] = useState<Record<string, { action: 'create' | 'reassign'; targetSectionId?: string; name: string }>>({});
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -117,8 +126,8 @@ export const BrainDumpModal: React.FC<BrainDumpModalProps> = ({
   };
 
   return (
-    <div className="modal-backdrop">
-      <div className="modal-content max-w-3xl">
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="modal-content max-w-3xl" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/80">
           <div className="flex items-center gap-2.5">

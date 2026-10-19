@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Plus, Check, Tag, Calendar, BarChart2 } from 'lucide-react';
 import { Section, Subsection, Entry } from '../types.js';
 import { addEntry } from '../api.js';
@@ -32,6 +32,15 @@ export const QuickAddModal: React.FC<QuickAddModalProps> = ({
   const [linkInput, setLinkInput] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -91,8 +100,8 @@ export const QuickAddModal: React.FC<QuickAddModalProps> = ({
   };
 
   return (
-    <div className="modal-backdrop">
-      <div className="modal-content max-w-xl">
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="modal-content max-w-xl" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/80">
           <div className="flex items-center gap-2">
             <Plus className="w-5 h-5 text-sky-400" />

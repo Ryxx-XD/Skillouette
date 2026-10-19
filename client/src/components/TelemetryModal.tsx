@@ -34,6 +34,15 @@ export const TelemetryModal: React.FC<TelemetryModalProps> = ({ isOpen, onClose 
   };
 
   useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
+  useEffect(() => {
     if (isOpen) {
       loadStats();
     }
@@ -42,8 +51,8 @@ export const TelemetryModal: React.FC<TelemetryModalProps> = ({ isOpen, onClose 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-      <div className="glass-panel-elevated w-full max-w-3xl max-h-[90vh] flex flex-col rounded-2xl border border-slate-800 shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md" onClick={onClose}>
+      <div className="glass-panel-elevated w-full max-w-3xl max-h-[90vh] flex flex-col rounded-2xl border border-slate-800 shadow-2xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
         {/* Modal Header */}
         <div className="p-5 border-b border-slate-800 flex items-center justify-between">
           <div className="flex items-center gap-2.5">

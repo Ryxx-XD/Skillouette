@@ -14,8 +14,6 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   onClose,
   onRefresh
 }) => {
-  if (!isOpen) return null;
-
   const [settings, setSettings] = useState<AppSettings>({
     llm_provider: 'local',
     model_name: 'gemini-1.5-flash',
@@ -30,15 +28,26 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    getSettings().then(s => {
-      setSettings(s);
-      setProvider(s.llm_provider || 'local');
-      setModelName(s.model_name || 'gemini-1.5-flash');
-      setTemperature(s.temperature ?? 0.15);
-      if (s.gemini_api_key) setGeminiKey(s.gemini_api_key);
-      if (s.openai_api_key) setOpenaiKey(s.openai_api_key);
-    });
-  }, []);
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
+  useEffect(() => {
+    if (isOpen) {
+      getSettings().then(s => {
+        setSettings(s);
+        setProvider(s.llm_provider || 'local');
+        setModelName(s.model_name || 'gemini-1.5-flash');
+        setTemperature(s.temperature ?? 0.15);
+        if (s.gemini_api_key) setGeminiKey(s.gemini_api_key);
+        if (s.openai_api_key) setOpenaiKey(s.openai_api_key);
+      });
+    }
+  }, [isOpen]);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -80,9 +89,11 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     }
   };
 
+  if (!isOpen) return null;
+
   return (
-    <div className="modal-backdrop">
-      <div className="modal-content max-w-lg">
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="modal-content max-w-lg" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/80">
           <div className="flex items-center gap-2">
             <Settings className="w-5 h-5 text-sky-400" />

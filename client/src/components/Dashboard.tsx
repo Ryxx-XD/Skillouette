@@ -363,8 +363,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
       {/* Add New Section Modal */}
       {showAddSectionModal && (
-        <div className="modal-backdrop">
-          <div className="modal-content max-w-md">
+        <div className="modal-backdrop" onClick={() => setShowAddSectionModal(false)}>
+          <div className="modal-content max-w-md" onClick={(e) => e.stopPropagation()}>
             <div className="p-5 border-b border-slate-800 flex items-center justify-between">
               <h3 className="font-display font-semibold text-white text-base">Add New Section</h3>
               <button

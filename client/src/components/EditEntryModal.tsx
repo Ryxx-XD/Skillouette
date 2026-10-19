@@ -18,39 +18,49 @@ export const EditEntryModal: React.FC<EditEntryModalProps> = ({
   onClose,
   onSuccess
 }) => {
-  if (!entry) return null;
-
-  const [sectionId, setSectionId] = useState(entry.section_id);
-  const [subsectionId, setSubsectionId] = useState<string | null>(entry.subsection_id || null);
-  const [title, setTitle] = useState(entry.title);
-  const [role, setRole] = useState(entry.role || '');
-  const [institution, setInstitution] = useState(entry.institution || '');
-  const [description, setDescription] = useState(entry.description);
-  const [metrics, setMetrics] = useState(entry.metrics || '');
-  const [dateStart, setDateStart] = useState(entry.date_start || '');
-  const [dateEnd, setDateEnd] = useState(entry.date_end || '');
-  const [tags, setTags] = useState<string[]>(entry.tags || []);
+  const [sectionId, setSectionId] = useState(entry?.section_id || '');
+  const [subsectionId, setSubsectionId] = useState<string | null>(entry?.subsection_id || null);
+  const [title, setTitle] = useState(entry?.title || '');
+  const [role, setRole] = useState(entry?.role || '');
+  const [institution, setInstitution] = useState(entry?.institution || '');
+  const [description, setDescription] = useState(entry?.description || '');
+  const [metrics, setMetrics] = useState(entry?.metrics || '');
+  const [dateStart, setDateStart] = useState(entry?.date_start || '');
+  const [dateEnd, setDateEnd] = useState(entry?.date_end || '');
+  const [tags, setTags] = useState<string[]>(entry?.tags || []);
   const [tagInput, setTagInput] = useState('');
-  const [linkInput, setLinkInput] = useState(entry.links?.[0] || '');
+  const [linkInput, setLinkInput] = useState(entry?.links?.[0] || '');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setSectionId(entry.section_id);
-    setSubsectionId(entry.subsection_id || null);
-    setTitle(entry.title);
-    setRole(entry.role || '');
-    setInstitution(entry.institution || '');
-    setDescription(entry.description);
-    setMetrics(entry.metrics || '');
-    setDateStart(entry.date_start || '');
-    setDateEnd(entry.date_end || '');
-    setTags(entry.tags || []);
-    setLinkInput(entry.links?.[0] || '');
+    if (!entry) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [entry, onClose]);
+
+  useEffect(() => {
+    if (entry) {
+      setSectionId(entry.section_id);
+      setSubsectionId(entry.subsection_id || null);
+      setTitle(entry.title);
+      setRole(entry.role || '');
+      setInstitution(entry.institution || '');
+      setDescription(entry.description);
+      setMetrics(entry.metrics || '');
+      setDateStart(entry.date_start || '');
+      setDateEnd(entry.date_end || '');
+      setTags(entry.tags || []);
+      setLinkInput(entry.links?.[0] || '');
+    }
   }, [entry]);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!entry) return;
     setIsSubmitting(true);
     setError(null);
 
@@ -79,6 +89,7 @@ export const EditEntryModal: React.FC<EditEntryModalProps> = ({
   };
 
   const handleDelete = async () => {
+    if (!entry) return;
     if (window.confirm('Are you sure you want to delete this entry?')) {
       setIsSubmitting(true);
       try {
@@ -104,9 +115,11 @@ export const EditEntryModal: React.FC<EditEntryModalProps> = ({
     setTags(tags.filter(tag => tag !== t));
   };
 
+  if (!entry) return null;
+
   return (
-    <div className="modal-backdrop">
-      <div className="modal-content max-w-xl">
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="modal-content max-w-xl" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/80">
           <h2 className="font-display font-semibold text-white text-base">Edit Resume Entry</h2>
           <button onClick={onClose} className="text-slate-400 hover:text-white p-1 rounded-lg">
